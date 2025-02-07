@@ -12,11 +12,14 @@ workflows:
         script: |
           npm install -g expo-cli
           npm install
-      - name: Prebuild Expo (if using Managed Workflow)
+      - name: Generate iOS project (expo prebuild)
         script: |
-          npx expo prebuild
+          npx expo prebuild --clean
       - name: Build iOS App
         script: |
+          cd ios
+          pod install
+          cd ..
           xcodebuild -workspace $XCODE_WORKSPACE -scheme $XCODE_SCHEME -sdk iphoneos -configuration Release archive -archivePath $HOME/build/PizzasAndBeer.xcarchive
       - name: Export .ipa
         script: |
