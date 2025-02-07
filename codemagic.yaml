@@ -15,11 +15,17 @@ workflows:
       - name: Generate iOS project (expo prebuild)
         script: |
           npx expo prebuild --clean
-      - name: Build iOS App
+          if [ ! -d "ios" ]; then
+            echo "Error: La carpeta 'ios' no se generó correctamente"
+            exit 1
+          fi
+      - name: Install CocoaPods dependencies
         script: |
           cd ios
           pod install
           cd ..
+      - name: Build iOS App
+        script: |
           xcodebuild -workspace $XCODE_WORKSPACE -scheme $XCODE_SCHEME -sdk iphoneos -configuration Release archive -archivePath $HOME/build/PizzasAndBeer.xcarchive
       - name: Export .ipa
         script: |
