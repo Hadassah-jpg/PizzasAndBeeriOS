@@ -10,10 +10,11 @@ workflows:
     scripts:
       - name: Install dependencies
         script: |
+          npm install -g expo-cli
           npm install
       - name: Prebuild Expo (if using Managed Workflow)
         script: |
-          expo prebuild
+          npx expo prebuild
       - name: Build iOS App
         script: |
           xcodebuild -workspace $XCODE_WORKSPACE -scheme $XCODE_SCHEME -sdk iphoneos -configuration Release archive -archivePath $HOME/build/PizzasAndBeer.xcarchive
